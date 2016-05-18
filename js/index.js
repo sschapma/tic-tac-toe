@@ -14,7 +14,7 @@ var winningLines = [
   [2, 4, 6]
 ];
 
-//UI
+//renders the game board
 function renderBoard(board) {
   board.forEach(function(el, i) {
     var squareId = '#' + i.toString();
@@ -24,11 +24,12 @@ function renderBoard(board) {
       $(squareId).text(cpuIcon);
     }
   });
-  
+
   $('.square:contains(X)').addClass('x-marker');
   $('.square:contains(O)').addClass('o-marker');
 }
 
+//animates the winning line
 function animateWinLine() {
   var idxOfArray = winningLines.map(function(winLines) {
     return winLines.map(function(winLine) {
@@ -38,17 +39,17 @@ function animateWinLine() {
     });
   });
   var squaresToAnimate = winningLines[idxOfArray.indexOf(Math.abs(3))];
-  
+
   squaresToAnimate.forEach(function(el) {
       $('#' + el).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeIn(200).fadeOut(200).fadeIn(200).fadeOut(200).fadeIn(200);
     });
 }
 
-//popupS
+//handles popups
 function chooseMarker() {
   $('.popup-container').css('display', 'block');
   $('.choose-popup').addClass('animated zoomIn');
-  
+
   $('.button-area span').click(function() {
     var marker = $(this).text();
     playerIcon = (marker === 'X' ? 'X' : 'O');
@@ -60,7 +61,7 @@ function chooseMarker() {
       $('.choose-popup').css('display','none');
       startNewGame();
     }, 700);
-    
+
     $('.button-area span').off();
   });
 }
@@ -68,19 +69,19 @@ function chooseMarker() {
 function endGameMessage(){
   var result = checkVictory(liveBoard);
   $('.end-game-popup h3').text(result === 'win' ? 'You Lost' : "It's a draw");
-  
+
   $('.popup-container').css('display', 'block');
   $('.end-game-popup').css('display','block').removeClass('animated zoomOut').addClass('animated zoomIn');
- 
+
   $('.button-area span').click(function() {
-    
+
     $('.end-game-popup').removeClass('animated zoomIn').addClass('animated zoomOut');
-    
+
     setTimeout(function() {
       $('.popup-container').css('display', 'none');
       startNewGame();
     }, 700);
-    
+
     $('.button-area span').off();
   });
 }
@@ -104,8 +105,8 @@ function playerTakeTurn() {
     $(this).css('cursor', 'default');
     liveBoard[parseInt($(this).attr('id'))] = -1;
     renderBoard(liveBoard);
-    
-    if (checkVictory(liveBoard)) {    
+
+    if (checkVictory(liveBoard)) {
       setTimeout(endGameMessage,(checkVictory(liveBoard) === 'win') ? 700 : 100);
     } else {
       setTimeout(aiTakeTurn, 100);
@@ -164,9 +165,9 @@ function availableMoves(board) {
 }
 
 //AI
-//minimax algorithm - explanation here: http://http://neverstopbuilding.com/minimax
+//minimax algorithm - explanation here: http://neverstopbuilding.com/minimax
 function miniMax(state, player) {
-  //base cases: check for an end state and if met - return the score from the perspective of the AI player.  
+  //base cases: check for an end state and if met - return the score from the perspective of the AI player.
   var rv = checkVictory(state);
   if (rv === 'win') {
     return 10;
