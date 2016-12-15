@@ -1,4 +1,4 @@
-# [Tic-Tac-Toe](http://codepen.io/schap843/debug/Vaboqv)
+# [Tic-Tac-Toe](http://sschapman.com/tic-tac-toe/)
 
 ### Unbeatable tic tac toe AI for FreeCodeCamp using the [minimax algorithm](http://neverstopbuilding.com/minimax).
 
